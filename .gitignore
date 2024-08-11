@@ -10,7 +10,7 @@ __pycache__/
 
 # Ignore environment variables
 .env
-key.env
+keys.env
 
 # Ignore Config File
 config.py
