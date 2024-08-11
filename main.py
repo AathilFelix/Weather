@@ -37,6 +37,7 @@ while True:
             message_text = telegram_api.get_the_message(data)
         else:
             print("Failed to fetch data from telegram api")
+            time.sleep(5)
             continue
         
     except Exception as e:
