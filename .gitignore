@@ -9,7 +9,7 @@ __pycache__/
 *.pyc[cod]
 
 # Ignore environment variables
-.env
+*.env
 
 # Ignore Config File
 config.py
