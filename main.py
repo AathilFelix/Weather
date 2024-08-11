@@ -1,7 +1,6 @@
-#main.py
+# main.py
 
 import requests as rq
-import json
 import city_api
 import weather_api
 import telegram_api
@@ -9,10 +8,32 @@ import time
 
 
 while True:
-    data = telegram_api.get_updates(offset=-1)
-    message_text = telegram_api.get_the_message(data)
+    try:
+        data = telegram_api.get_updates(offset=-1, limit=1, timeout=30) # timout to reduce the stress on telegram api
+        chat_id = telegram_api.get_the_chatid(data)
+        message_text = telegram_api.get_the_message(data)
+        
+        if chat_id is None or message_text is None:
+            time.sleep(5)
+            continue
+
+        if city_api.get_valid(message_text) == True:
+            try:
+                weather_data = weather_api.get_weather_data(message_text)
+                telegram_api.send_message(chat_id, weather_data)
+            except Exception as e:
+                pass
+        else:
+            telegram_api.send_message(
+                chat_id, "Invalid City Name/City Not enlisted in our database"
+            )
+        
+        time.sleep(5)
+
+        data = telegram_api.get_updates(offset=telegram_api.highest_update_id + 1, limit=1)
+        chat_id = telegram_api.get_the_chatid(data)
+        message_text = telegram_api.get_the_message(data)
     
-    if city_api.get_valid(message_text) == True:
-        print(weather_api.get_weather_data(message_text))
-    else:
-        print("Invalid City Name/City Not enlisted in our database")
+    except Exception as e:
+        print(f"Error in main loop: {e}")
+        time.sleep(5)

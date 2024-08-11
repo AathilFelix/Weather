@@ -1,3 +1,18 @@
-__pycache__/city_api.cpython-310.pyc
-__pycache__/weather_api.cpython-310.pyc
+# Purpose: Ignore files that are not necessary to be tracked by git
+
+# Ignore Test Files
+new.py
+new2.py
+telegramapitest.py
+# Ignore Python byte code
+__pycache__/
+*.pyc[cod]
+
+# Ignore environment variables
+.env
+
+# Ignore Config File
 config.py
+
+# Ignore .vscode files
+.vscode/
